@@ -1,15 +1,14 @@
-import type React from "react"
-import type { Metadata } from "next"
-import { Inter } from "next/font/google"
-import "./globals.css"
-import "./animations.css"
+import './globals.css'
+import { Inter } from 'next/font/google'
+import { Metadata } from 'next'
 
-const inter = Inter({ subsets: ["latin"] })
+const inter = Inter({ subsets: ['latin'] })
 
-export const metadata: Metadata = {
-  title: "Meeting Scheduler",
-  description: "Schedule a meeting with us",
-    generator: 'v0.dev'
+export async function generateMetadata({ searchParams }: { searchParams: { firstName?: string } }): Promise<Metadata> {
+  const firstName = searchParams?.firstName
+  return {
+    title: firstName ? `${firstName}'s Meeting Scheduler` : 'Meeting Scheduler',
+  }
 }
 
 export default function RootLayout({
@@ -19,10 +18,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+      </head>
       <body className={inter.className}>{children}</body>
     </html>
   )
 }
-
-
-import './globals.css'
