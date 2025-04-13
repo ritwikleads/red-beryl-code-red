@@ -50,10 +50,10 @@ export default function MeetingForm({ trackingId, onSubmit }: MeetingFormProps) 
   }
 
   return (
-    <form id="meetingForm" onSubmit={handleSubmit} className="bg-[#FDFBEF] p-8 rounded-lg shadow-md w-full max-w-[400px] mx-auto">
+    <form id="meetingForm" onSubmit={handleSubmit} className="bg-[#FDFBEF] p-8 rounded-xl shadow-xl border border-[#B2021F]/10 w-full max-w-[400px] mx-auto hover:shadow-2xl transition-shadow duration-300">
       <input type="hidden" id="trackingId" name="trackingId" value={trackingId} />
 
-      <div className="mb-6 bg-[#FDFBEF] p-4 rounded-lg">
+      <div className="mb-6 bg-[#FDFBEF] p-4 rounded-lg shadow-sm border border-[#B2021F]/5">
         <label className="block mb-3 font-bold text-gray-700 text-center">Preferred Meeting Date:</label>
         <div className="flex justify-center">
           <Calendar
@@ -84,7 +84,7 @@ export default function MeetingForm({ trackingId, onSubmit }: MeetingFormProps) 
       </div>
 
       {selectedDate && (
-        <div className="mb-6 bg-[#FDFBEF] p-4 rounded-lg">
+        <div className="mb-6 bg-[#FDFBEF] p-4 rounded-lg shadow-sm border border-[#B2021F]/5">
           <label className="block mb-3 font-bold text-gray-700 text-center">Preferred Meeting Time:</label>
           <select
             value={selectedTime}
