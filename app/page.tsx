@@ -33,19 +33,26 @@ export default function Home() {
   const handleFormSubmit = async (formData: any) => {
     console.log("Form submitted:", formData)
 
-    // In production, this would send data to your backend
     try {
-      // const response = await fetch('/api/schedule-meeting', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(formData)
-      // })
+      const response = await fetch('https://auto.nubizdigital.com/webhook-test/87b17109-6a1f-4a4c-9a70-a6a8a856502f', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          trackingId: formData.trackingId,
+          firstName: firstName || '',
+          lastName: lastName || '',
+          dateTime: formData.dateTime,
+          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+          timestamp: new Date().toISOString(),
+          event: 'meeting_scheduled'
+        })
+      })
 
-      // if (!response.ok) throw new Error('Failed to submit form')
-
+      if (!response.ok) throw new Error('Failed to submit form')
       setShowConfirmation(true)
     } catch (error) {
       console.error("Error submitting form:", error)
+      alert('Failed to schedule meeting. Please try again.')
     }
   }
 
