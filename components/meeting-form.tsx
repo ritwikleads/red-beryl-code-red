@@ -50,7 +50,7 @@ export default function MeetingForm({ trackingId, onSubmit }: MeetingFormProps) 
   }
 
     return (
-    <form id="meetingForm" onSubmit={handleSubmit} className="bg-[#FDFBEF] p-4 sm:p-8 rounded-xl shadow-xl border border-[#B2021F]/10 w-full max-w-[400px] mx-auto hover:shadow-2xl transition-shadow duration-300">
+    <form id="meetingForm" onSubmit={handleSubmit} className="bg-[#FDFBEF] p-2 sm:p-6 md:p-8 rounded-xl shadow-xl border border-[#B2021F]/10 w-[95%] sm:w-full max-w-[450px] mx-auto hover:shadow-2xl transition-shadow duration-300">
       <input type="hidden" id="trackingId" name="trackingId" value={trackingId} />
 
       <div className="mb-6 bg-[#FDFBEF] p-2 sm:p-4 rounded-lg shadow-sm border border-[#B2021F]/5 overflow-hidden">
@@ -60,7 +60,7 @@ export default function MeetingForm({ trackingId, onSubmit }: MeetingFormProps) 
             mode="single"
             selected={selectedDate}
             onSelect={setSelectedDate}
-            className="w-full max-w-[280px] rounded-md border mx-auto"
+            className="w-full max-w-[320px] rounded-md border mx-auto"
             classNames={{
               months: "flex flex-col space-y-4",
               month: "space-y-4 w-full",
@@ -69,10 +69,10 @@ export default function MeetingForm({ trackingId, onSubmit }: MeetingFormProps) 
               nav: "space-x-1 flex items-center",
               table: "w-full border-collapse space-y-1",
               head_row: "flex justify-center",
-              head_cell: "text-muted-foreground rounded-md w-8 sm:w-10 font-normal text-[0.8rem] sm:text-[0.9rem] text-center",
+              head_cell: "text-muted-foreground rounded-md w-9 sm:w-11 font-normal text-[0.9rem] text-center",
               row: "flex justify-center w-full mt-2",
-              cell: "h-8 w-8 sm:h-10 sm:w-10 text-center text-sm p-0 relative hover:bg-[#F5E6E8] rounded-full",
-              day: "h-8 w-8 sm:h-10 sm:w-10 p-0 font-normal hover:bg-[#F5E6E8] rounded-full",
+              cell: "h-9 w-9 sm:h-11 sm:w-11 text-center text-sm p-0 relative hover:bg-[#F5E6E8] rounded-full",
+              day: "h-9 w-9 sm:h-11 sm:w-11 p-0 font-normal hover:bg-[#F5E6E8] rounded-full",
               day_selected: "bg-[#B2021F] text-white hover:bg-[#B2021F] rounded-full",
               day_today: "bg-[#F5E6E8] text-[#B2021F] font-bold",
               nav_button: "text-[#B2021F] hover:bg-[#F5E6E8] rounded-full h-7 w-7",
