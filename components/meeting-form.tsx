@@ -50,10 +50,10 @@ export default function MeetingForm({ trackingId, onSubmit }: MeetingFormProps) 
   }
 
   return (
-    <form id="meetingForm" onSubmit={handleSubmit} className="bg-white p-8 rounded-lg shadow-md w-full max-w-[400px] mx-auto">
+    <form id="meetingForm" onSubmit={handleSubmit} className="bg-[#FDFBEF] p-8 rounded-lg shadow-md w-full max-w-[400px] mx-auto">
       <input type="hidden" id="trackingId" name="trackingId" value={trackingId} />
 
-      <div className="mb-6">
+      <div className="mb-6 bg-[#FDFBEF] p-4 rounded-lg">
         <label className="block mb-3 font-bold text-gray-700 text-center">Preferred Meeting Date:</label>
         <div className="flex justify-center">
           <Calendar
@@ -84,12 +84,12 @@ export default function MeetingForm({ trackingId, onSubmit }: MeetingFormProps) 
       </div>
 
       {selectedDate && (
-        <div className="mb-6">
+        <div className="mb-6 bg-[#FDFBEF] p-4 rounded-lg">
           <label className="block mb-3 font-bold text-gray-700 text-center">Preferred Meeting Time:</label>
           <select
             value={selectedTime}
             onChange={(e) => setSelectedTime(e.target.value)}
-            className="w-full p-3 border rounded-md text-center bg-white hover:border-[#B2021F] focus:border-[#B2021F] focus:outline-none transition-colors"
+            className="w-full p-3 border rounded-md text-center bg-[#FDFBEF] hover:border-[#B2021F] focus:border-[#B2021F] focus:outline-none transition-colors"
           >
             <option value="">Select a time</option>
             {generateTimeOptions().map((time) => (
