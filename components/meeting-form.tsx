@@ -1,14 +1,9 @@
 "use client"
 
 import type React from "react"
-
 import { useState, useEffect } from "react"
-
-interface DateOption {
-  dateStr: string
-  time: string
-  fullDateTime: string
-}
+import { Calendar } from "@/components/ui/calendar"
+import { addDays, format, parse, set } from "date-fns"
 
 interface MeetingFormProps {
   trackingId: string
@@ -16,123 +11,99 @@ interface MeetingFormProps {
 }
 
 export default function MeetingForm({ trackingId, onSubmit }: MeetingFormProps) {
-  const [email, setEmail] = useState("")
-  const [phone, setPhone] = useState("")
-  const [selectedDateTime, setSelectedDateTime] = useState("")
-  const [dateOptions, setDateOptions] = useState<DateOption[]>([])
-
-  useEffect(() => {
-    // Generate date options for the next 5 days
-    const options: DateOption[] = []
-    const today = new Date()
-
-    for (let i = 1; i <= 5; i++) {
-      const date = new Date(today)
-      date.setDate(today.getDate() + i)
-
-      const dateStr = date.toLocaleDateString("en-US", {
-        weekday: "short",
-        month: "short",
-        day: "numeric",
-      })
-
-      // Morning option
-      options.push({
-        dateStr,
-        time: "10:00 AM",
-        fullDateTime: `${dateStr} 10:00 AM`,
-      })
-
-      // Afternoon option
-      options.push({
-        dateStr,
-        time: "2:00 PM",
-        fullDateTime: `${dateStr} 2:00 PM`,
-      })
-    }
-
-    setDateOptions(options)
-  }, [])
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined)
+  const [selectedTime, setSelectedTime] = useState<string | undefined>(undefined)
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
 
-    if (!selectedDateTime) {
+    if (!selectedDate || !selectedTime) {
       alert("Please select a meeting date and time")
       return
     }
 
+    const selectedDateTime = set(selectedDate, {
+      hours: parseInt(selectedTime.split(':')[0]),
+      minutes: parseInt(selectedTime.split(':')[1]),
+      seconds: 0,
+      milliseconds: 0
+    })
+
     const formData = {
       trackingId,
-      email,
-      phone,
-      dateTime: selectedDateTime,
+      dateTime: selectedDateTime.toISOString(),
       submittedAt: new Date().toISOString(),
     }
 
     onSubmit(formData)
   }
 
+  const generateTimeOptions = () => {
+    const options = []
+    for (let hour = 9; hour <= 20; hour++) {
+      options.push(`${hour.toString().padStart(2, '0')}:00`)
+      if (hour < 20) {
+        options.push(`${hour.toString().padStart(2, '0')}:30`)
+      }
+    }
+    return options
+  }
+
   return (
-    <form id="meetingForm" onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md">
+    <form id="meetingForm" onSubmit={handleSubmit} className="bg-white p-8 rounded-lg shadow-md w-full max-w-[400px] mx-auto">
       <input type="hidden" id="trackingId" name="trackingId" value={trackingId} />
 
-      <div className="mb-4">
-        <label htmlFor="email" className="block mb-2 font-bold text-gray-700">
-          Email Address:
-        </label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#B2021F]"
-        />
-      </div>
-
-      <div className="mb-4">
-        <label htmlFor="phone" className="block mb-2 font-bold text-gray-700">
-          Phone Number:
-        </label>
-        <input
-          type="tel"
-          id="phone"
-          name="phone"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-          required
-          className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#B2021F]"
-        />
-      </div>
-
-      <div className="mb-4">
-        <label className="block mb-2 font-bold text-gray-700">Preferred Meeting Date & Time:</label>
-        <div className="flex flex-wrap gap-2 mb-4" id="dateOptions">
-          {dateOptions.map((option, index) => (
-            <div
-              key={index}
-              className={`
-                border rounded p-3 cursor-pointer transition-colors
-                ${
-                  selectedDateTime === option.fullDateTime
-                    ? "bg-[#FDFBEF] border-[#B2021F] text-[#B2021F]"
-                    : "border-gray-300 hover:bg-gray-50"
-                }
-              `}
-              onClick={() => setSelectedDateTime(option.fullDateTime)}
-            >
-              {option.dateStr}, {option.time}
-            </div>
-          ))}
+      <div className="mb-6">
+        <label className="block mb-3 font-bold text-gray-700 text-center">Preferred Meeting Date:</label>
+        <div className="flex justify-center">
+          <Calendar
+            mode="single"
+            selected={selectedDate}
+            onSelect={setSelectedDate}
+            className="rounded-md border mx-auto"
+            classNames={{
+              months: "flex flex-col space-y-4",
+              month: "space-y-4 w-[300px]",
+              caption: "flex justify-center pt-1 relative items-center text-[#B2021F]",
+              caption_label: "text-lg font-medium",
+              nav: "space-x-1 flex items-center",
+              table: "w-full border-collapse space-y-1",
+              head_row: "flex justify-center",
+              head_cell: "text-muted-foreground rounded-md w-10 font-normal text-[0.9rem] text-center",
+              row: "flex justify-center w-full mt-2",
+              cell: "h-10 w-10 text-center text-sm p-0 relative hover:bg-[#F5E6E8] rounded-full",
+              day: "h-10 w-10 p-0 font-normal hover:bg-[#F5E6E8] rounded-full",
+              day_selected: "bg-[#B2021F] text-white hover:bg-[#B2021F] rounded-full",
+              day_today: "bg-[#F5E6E8] text-[#B2021F] font-bold",
+              nav_button: "text-[#B2021F] hover:bg-[#F5E6E8] rounded-full h-7 w-7",
+              nav_button_previous: "absolute left-1",
+              nav_button_next: "absolute right-1"
+            }}
+          />
         </div>
-        <input type="hidden" id="selectedDateTime" name="selectedDateTime" value={selectedDateTime} />
       </div>
+
+      {selectedDate && (
+        <div className="mb-6">
+          <label className="block mb-3 font-bold text-gray-700 text-center">Preferred Meeting Time:</label>
+          <select
+            value={selectedTime}
+            onChange={(e) => setSelectedTime(e.target.value)}
+            className="w-full p-3 border rounded-md text-center bg-white hover:border-[#B2021F] focus:border-[#B2021F] focus:outline-none transition-colors"
+          >
+            <option value="">Select a time</option>
+            {generateTimeOptions().map((time) => (
+              <option key={time} value={time}>
+                {time}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
 
       <button
         type="submit"
-        className="w-full bg-[#B2021F] text-white py-3 px-4 rounded font-medium hover:bg-[#a00018] transition-colors"
+        className="w-full bg-[#B2021F] text-white py-3 px-4 rounded-md font-medium hover:bg-[#a00018] transition-colors text-lg"
       >
         Schedule Meeting
       </button>
