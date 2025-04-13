@@ -3,6 +3,7 @@
 import { useSearchParams } from "next/navigation"
 import { useState, useEffect } from "react"
 import MeetingForm from "@/components/meeting-form"
+import LogoAnimation from "@/components/logo-animation"
 
 export default function Home() {
   const searchParams = useSearchParams()
@@ -10,6 +11,12 @@ export default function Home() {
   const firstName = searchParams.get("firstName")
   const lastName = searchParams.get("lastName")
   const [showConfirmation, setShowConfirmation] = useState(false)
+  const [showLogo, setShowLogo] = useState(true)
+
+  useEffect(() => {
+    const timer = setTimeout(() => setShowLogo(false), 800);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     // Record page view when page loads with valid tracking ID
@@ -57,8 +64,14 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen bg-[#FDFBEF] py-12 px-4 transition-all duration-300 ease-in-out">
-      <div className="max-w-2xl mx-auto backdrop-blur-sm bg-white/30 p-8 rounded-xl shadow-lg transition-transform hover:scale-[1.01]">
+    <main className="min-h-screen bg-[#FDFBEF] py-12 px-4 transition-all duration-300 ease-in-out relative">
+      {showLogo && (
+        <>
+          <div className="fixed inset-0 bg-[#FDFBEF] z-40" />
+          <LogoAnimation />
+        </>
+      )}
+      <div className={`max-w-2xl mx-auto backdrop-blur-sm bg-white/30 p-8 rounded-xl shadow-lg transition-all duration-500 ${showLogo ? 'opacity-0' : 'opacity-100 transform hover:scale-[1.01]'}`}>
         <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-[#B2021F]/10 to-transparent pointer-events-none" />
         {!showConfirmation ? (
           <>
