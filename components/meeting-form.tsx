@@ -49,9 +49,6 @@ export default function MeetingForm({ trackingId, onSubmit }: MeetingFormProps) 
     return options
   }
 
-  git add .
-  git commit -m "Your commit message"
-  git push origin main
     return (
     <form id="meetingForm" onSubmit={handleSubmit} className="bg-[#FDFBEF] p-4 sm:p-8 rounded-xl shadow-xl border border-[#B2021F]/10 w-full max-w-[400px] mx-auto hover:shadow-2xl transition-shadow duration-300">
       <input type="hidden" id="trackingId" name="trackingId" value={trackingId} />
