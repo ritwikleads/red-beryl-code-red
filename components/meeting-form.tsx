@@ -49,30 +49,33 @@ export default function MeetingForm({ trackingId, onSubmit }: MeetingFormProps) 
     return options
   }
 
-  return (
-    <form id="meetingForm" onSubmit={handleSubmit} className="bg-[#FDFBEF] p-8 rounded-xl shadow-xl border border-[#B2021F]/10 w-full max-w-[400px] mx-auto hover:shadow-2xl transition-shadow duration-300">
+  git add .
+  git commit -m "Your commit message"
+  git push origin main
+    return (
+    <form id="meetingForm" onSubmit={handleSubmit} className="bg-[#FDFBEF] p-4 sm:p-8 rounded-xl shadow-xl border border-[#B2021F]/10 w-full max-w-[400px] mx-auto hover:shadow-2xl transition-shadow duration-300">
       <input type="hidden" id="trackingId" name="trackingId" value={trackingId} />
 
-      <div className="mb-6 bg-[#FDFBEF] p-4 rounded-lg shadow-sm border border-[#B2021F]/5">
+      <div className="mb-6 bg-[#FDFBEF] p-2 sm:p-4 rounded-lg shadow-sm border border-[#B2021F]/5 overflow-hidden">
         <label className="block mb-3 font-bold text-gray-700 text-center">Preferred Meeting Date:</label>
         <div className="flex justify-center">
           <Calendar
             mode="single"
             selected={selectedDate}
             onSelect={setSelectedDate}
-            className="rounded-md border mx-auto"
+            className="w-full max-w-[280px] rounded-md border mx-auto"
             classNames={{
               months: "flex flex-col space-y-4",
-              month: "space-y-4 w-[300px]",
+              month: "space-y-4 w-full",
               caption: "flex justify-center pt-1 relative items-center text-[#B2021F]",
               caption_label: "text-lg font-medium",
               nav: "space-x-1 flex items-center",
               table: "w-full border-collapse space-y-1",
               head_row: "flex justify-center",
-              head_cell: "text-muted-foreground rounded-md w-10 font-normal text-[0.9rem] text-center",
+              head_cell: "text-muted-foreground rounded-md w-8 sm:w-10 font-normal text-[0.8rem] sm:text-[0.9rem] text-center",
               row: "flex justify-center w-full mt-2",
-              cell: "h-10 w-10 text-center text-sm p-0 relative hover:bg-[#F5E6E8] rounded-full",
-              day: "h-10 w-10 p-0 font-normal hover:bg-[#F5E6E8] rounded-full",
+              cell: "h-8 w-8 sm:h-10 sm:w-10 text-center text-sm p-0 relative hover:bg-[#F5E6E8] rounded-full",
+              day: "h-8 w-8 sm:h-10 sm:w-10 p-0 font-normal hover:bg-[#F5E6E8] rounded-full",
               day_selected: "bg-[#B2021F] text-white hover:bg-[#B2021F] rounded-full",
               day_today: "bg-[#F5E6E8] text-[#B2021F] font-bold",
               nav_button: "text-[#B2021F] hover:bg-[#F5E6E8] rounded-full h-7 w-7",
