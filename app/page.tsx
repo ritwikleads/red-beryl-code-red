@@ -15,7 +15,7 @@ export default function Home() {
     // Record page view when page loads with valid tracking ID
     if (trackingId) {
       console.log("Page viewed with tracking ID:", trackingId)
-      fetch('https://your-n8n-webhook-url/webhook', {
+      fetch('https://auto.nubizdigital.com/webhook-test/493fe989-c90e-4e2e-a893-d7c3409e913e', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
