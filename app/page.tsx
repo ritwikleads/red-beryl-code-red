@@ -15,14 +15,20 @@ export default function Home() {
     // Record page view when page loads with valid tracking ID
     if (trackingId) {
       console.log("Page viewed with tracking ID:", trackingId)
-      // In production, this would call your API to update CTR field
-      // fetch('/api/record-view', {
-      //   method: 'POST',
-      //   headers: {'Content-Type': 'application/json'},
-      //   body: JSON.stringify({trackingId})
-      // })
+      fetch('https://your-n8n-webhook-url/webhook', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          trackingId,
+          firstName: firstName || '',
+          lastName: lastName || '',
+          timestamp: new Date().toISOString(),
+          event: 'page_view'
+        })
+      })
+      .catch(error => console.error('Error sending tracking data:', error))
     }
-  }, [trackingId])
+  }, [trackingId, firstName, lastName])
 
   const handleFormSubmit = async (formData: any) => {
     console.log("Form submitted:", formData)
