@@ -71,7 +71,7 @@ export default function Home() {
           <LogoAnimation />
         </>
       )}
-      <div className={`max-w-2xl mx-auto backdrop-blur-sm bg-white/30 p-8 rounded-xl shadow-lg transition-all duration-500 ${showLogo ? 'opacity-0' : 'opacity-100 transform hover:scale-[1.01]'}`}>
+      <div className={`max-w-2xl mx-auto transition-all duration-500 ${showLogo ? 'opacity-0' : 'opacity-100'}`}>
         <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-[#B2021F]/10 to-transparent pointer-events-none" />
         {!showConfirmation ? (
           <>
