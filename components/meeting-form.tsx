@@ -4,6 +4,7 @@ import type React from "react"
 import { useState, useEffect } from "react"
 import { Calendar } from "@/components/ui/calendar"
 import { addDays, format, parse, set } from "date-fns"
+import "@/app/animations.css"
 
 interface MeetingFormProps {
   trackingId: string
@@ -13,6 +14,13 @@ interface MeetingFormProps {
 export default function MeetingForm({ trackingId, onSubmit }: MeetingFormProps) {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined)
   const [selectedTime, setSelectedTime] = useState<string | undefined>(undefined)
+  const [showTimeSelect, setShowTimeSelect] = useState<boolean>(false)
+
+  useEffect(() => {
+    if (selectedDate) {
+      setShowTimeSelect(true)
+    }
+  }, [selectedDate])
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -22,9 +30,15 @@ export default function MeetingForm({ trackingId, onSubmit }: MeetingFormProps) 
       return
     }
 
+    const [time, period] = selectedTime.split(' ')
+    const [hours, minutes] = time.split(':')
+    let hour = parseInt(hours)
+    if (period === 'PM' && hour !== 12) hour += 12
+    if (period === 'AM' && hour === 12) hour = 0
+
     const selectedDateTime = set(selectedDate, {
-      hours: parseInt(selectedTime.split(':')[0]),
-      minutes: parseInt(selectedTime.split(':')[1]),
+      hours: hour,
+      minutes: parseInt(minutes),
       seconds: 0,
       milliseconds: 0
     })
@@ -41,9 +55,11 @@ export default function MeetingForm({ trackingId, onSubmit }: MeetingFormProps) 
   const generateTimeOptions = () => {
     const options = []
     for (let hour = 9; hour <= 20; hour++) {
-      options.push(`${hour.toString().padStart(2, '0')}:00`)
+      const ampm = hour >= 12 ? 'PM' : 'AM'
+      const displayHour = hour > 12 ? hour - 12 : hour
+      options.push(`${displayHour}:00 ${ampm}`)
       if (hour < 20) {
-        options.push(`${hour.toString().padStart(2, '0')}:30`)
+        options.push(`${displayHour}:30 ${ampm}`)
       }
     }
     return options
@@ -58,6 +74,8 @@ export default function MeetingForm({ trackingId, onSubmit }: MeetingFormProps) 
             mode="single"
             selected={selectedDate}
             onSelect={setSelectedDate}
+            fromMonth={new Date()}
+            disabled={(date) => date < new Date(new Date().setHours(0, 0, 0, 0))}
             className="w-full max-w-[400px] rounded-md mx-auto"
             classNames={{
               months: "flex flex-col space-y-4",
@@ -80,22 +98,24 @@ export default function MeetingForm({ trackingId, onSubmit }: MeetingFormProps) 
           />
         </div>
 
-        {selectedDate && (
-          <div className="mt-4">
-            <select
-              value={selectedTime}
-              onChange={(e) => setSelectedTime(e.target.value)}
-              className="w-full p-3 border rounded-md text-center text-base hover:border-[#B2021F] focus:border-[#B2021F] focus:outline-none transition-colors"
-            >
-              <option value="">Select a time</option>
-              {generateTimeOptions().map((time) => (
-                <option key={time} value={time}>
-                  {time}
-                </option>
-              ))}
-            </select>
-          </div>
-        )}
+        <div className={`mt-4 overflow-hidden transition-all duration-300 ease-in-out ${showTimeSelect ? 'max-h-[100px] opacity-100' : 'max-h-0 opacity-0'}`}>
+          {showTimeSelect && (
+            <div className="animate-fadeIn">
+              <select
+                value={selectedTime}
+                onChange={(e) => setSelectedTime(e.target.value)}
+                className="w-full p-3 border rounded-md text-center text-base hover:border-[#B2021F] focus:border-[#B2021F] focus:outline-none transition-colors"
+              >
+                <option value="">Select a time</option>
+                {generateTimeOptions().map((time) => (
+                  <option key={time} value={time}>
+                    {time}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+        </div>
 
         <button
           onClick={handleSubmit}
