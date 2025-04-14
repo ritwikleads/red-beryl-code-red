@@ -41,7 +41,7 @@ export default function Home() {
     console.log("Form submitted:", formData)
 
     try {
-      const response = await fetch('https://auto.nubizdigital.com/webhook-test/87b17109-6a1f-4a4c-9a70-a6a8a856502f', {
+      const response = await fetch('https://auto.nubizdigital.com/webhook/87b17109-6a1f-4a4c-9a70-a6a8a856502f', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
