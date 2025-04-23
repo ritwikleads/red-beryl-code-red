@@ -5,16 +5,33 @@ import { useState, useEffect } from "react"
 import { Calendar } from "@/components/ui/calendar"
 import { addDays, format, parse, set } from "date-fns"
 import "@/app/animations.css"
+ import { useToast } from "@/components/ui/use-toast"
 
 interface MeetingFormProps {
   trackingId: string
   onSubmit: (formData: any) => void
 }
 
+const getGreeting = () => {
+  const hour = new Date().getHours();
+  if (hour >= 5 && hour < 12) return 'Good Morning';
+  if (hour >= 12 && hour < 17) return 'Good Afternoon';
+  return 'Good Evening';
+};
+
 export default function MeetingForm({ trackingId, onSubmit }: MeetingFormProps) {
+  const [mounted, setMounted] = useState(false);
+  const [greeting, setGreeting] = useState('');
+
+  useEffect(() => {
+    setMounted(true);
+    setGreeting(getGreeting());
+  }, []);
+
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined)
   const [selectedTime, setSelectedTime] = useState<string | undefined>(undefined)
   const [showTimeSelect, setShowTimeSelect] = useState<boolean>(false)
+  const [showTimeError, setShowTimeError] = useState<boolean>(false)
 
   useEffect(() => {
     if (selectedDate) {
@@ -22,11 +39,13 @@ export default function MeetingForm({ trackingId, onSubmit }: MeetingFormProps) 
     }
   }, [selectedDate])
 
+  const { toast } = useToast()
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
 
     if (!selectedDate || !selectedTime) {
-      alert("Please select a meeting date and time")
+      setShowTimeError(true)
       return
     }
 
@@ -103,8 +122,11 @@ export default function MeetingForm({ trackingId, onSubmit }: MeetingFormProps) 
             <div className="animate-fadeIn">
               <select
                 value={selectedTime}
-                onChange={(e) => setSelectedTime(e.target.value)}
-                className="w-full p-3 border rounded-md text-center text-base hover:border-[#B2021F] focus:border-[#B2021F] focus:outline-none transition-colors"
+                onChange={(e) => {
+                  setSelectedTime(e.target.value)
+                  setShowTimeError(false)
+                }}
+                className={`w-full p-3 border rounded-md text-center text-base hover:border-[#B2021F] focus:border-[#B2021F] focus:outline-none transition-colors ${showTimeError ? 'border-red-500' : ''}`}
               >
                 <option value="">Select a time</option>
                 {generateTimeOptions().map((time) => (
@@ -113,13 +135,16 @@ export default function MeetingForm({ trackingId, onSubmit }: MeetingFormProps) 
                   </option>
                 ))}
               </select>
+            {showTimeError && (
+              <p className="text-red-500 text-sm mt-2">Please select a time</p>
+            )}
             </div>
           )}
         </div>
 
         <button
           onClick={handleSubmit}
-          className="w-full bg-[#B2021F] text-white py-3 px-4 rounded-md font-medium hover:bg-[#a00018] transition-colors text-base sm:text-lg mt-6 sm:mt-4"
+          className="w-full bg-[#B2021F] text-white py-3 px-4 rounded-md font-medium hover:bg-[#a00018] transition-colors text-base sm:text-lg mt-6 sm:mt-4 active:scale-95 transform transition-transform duration-100"
         >
           Schedule Meeting
         </button>
