@@ -10,6 +10,7 @@ export default function Home() {
   const trackingId = searchParams.get("id")
   const firstName = searchParams.get("firstName")
   const lastName = searchParams.get("lastName")
+  const salutation = searchParams.get("salutation")
   const [showConfirmation, setShowConfirmation] = useState(false)
   const [showLogo, setShowLogo] = useState(true)
 
@@ -29,6 +30,7 @@ export default function Home() {
           trackingId,
           firstName: firstName || '',
           lastName: lastName || '',
+          salutation: salutation || '',
           timestamp: new Date().toISOString(),
           event: 'page_view'
         })
@@ -48,6 +50,7 @@ export default function Home() {
           trackingId: formData.trackingId,
           firstName: firstName || '',
           lastName: lastName || '',
+          salutation: salutation || '',
           dateTime: formData.dateTime,
           timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
           timestamp: new Date().toISOString(),
@@ -77,7 +80,7 @@ export default function Home() {
           <>
             <div id="personalGreeting" className="mb-8 animate-fadeIn">
               <h1 className="text-4xl font-bold text-[#B2021F] mb-4 tracking-tight">
-                Hello <span id="firstName" className="relative inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-[#B2021F]/20">{firstName || "there"}</span> <span id="lastName" className="relative inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-[#B2021F]/20">{lastName || ""}</span>!
+                Hello {salutation && <span className="relative inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-[#B2021F]/20">{salutation}</span>} <span id="firstName" className="relative inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-[#B2021F]/20">{firstName || "there"}</span> <span id="lastName" className="relative inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-[#B2021F]/20">{lastName || ""}</span>!
               </h1>
               <p className="text-gray-700 text-lg leading-relaxed">
                 Thank you for scanning the QR code. Please provide your contact information and preferred meeting time
