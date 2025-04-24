@@ -87,11 +87,11 @@ export default function Home() {
               <h1 className="text-4xl font-bold text-[#B2021F] mb-4 tracking-tight flex flex-col md:block">
                 <span className="mb-2 md:mb-0">{greeting},</span>
                 <span>
-                  {salutation && <span className="relative inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-[#B2021F]/20">{salutation}</span>} <span id="firstName" className="relative inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-[#B2021F]/20">{firstName || "there"}</span> <span id="lastName" className="relative inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-[#B2021F]/20">{lastName || ""}</span>
+                  {salutation && <span className="relative inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-[#B2021F]/20">{salutation}.</span>} <span id="firstName" className="relative inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-[#B2021F]/20">{firstName || "there"}</span> <span id="lastName" className="relative inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-[#B2021F]/20">{lastName || ""}</span>
                 </span>
               </h1>
               <p className="text-gray-700 text-lg leading-relaxed">
-                Thank you for scanning the QR code. Please us know your preferred date and time of meeting.
+                Thank you for scanning the QR code. Please let us know your preferred date and time of meeting.
                 
               </p>
             </div>
@@ -102,7 +102,7 @@ export default function Home() {
           <div id="confirmation" className="mt-8 p-8 bg-[#FDFBEF] border-2 border-[#B2021F] rounded-xl shadow-lg transform transition-all duration-500 animate-slideUp">
             <div className="flex items-center mb-4">
               <svg className="w-8 h-8 text-[#B2021F] mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-              <h2 className="text-3xl font-bold text-[#B2021F]">Thank you{salutation ? `, ${salutation}` : ''}{lastName ? ` ${lastName}` : ''}!</h2>
+              <h2 className="text-3xl font-bold text-[#B2021F]">Thank you{salutation ? `, ${salutation}.` : ''}{lastName ? ` ${lastName}` : ''}!</h2>
             </div>
             <p className="text-gray-700 text-lg leading-relaxed">Your meeting has been scheduled. We'll be in touch soon!</p>
           </div>
