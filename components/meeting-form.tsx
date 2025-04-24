@@ -95,7 +95,7 @@ export default function MeetingForm({ trackingId, onSubmit }: MeetingFormProps) 
             onSelect={setSelectedDate}
             fromMonth={new Date()}
             disabled={(date) => date < new Date(new Date().setHours(0, 0, 0, 0))}
-            className="w-full max-w-[400px] rounded-md mx-auto"
+            className="w-full max-w-lg rounded-md mx-auto" // Increased max-width from 400px to lg (512px)
             classNames={{
               months: "flex flex-col space-y-4",
               month: "space-y-4 w-full",
