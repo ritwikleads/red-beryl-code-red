@@ -49,7 +49,7 @@ export default function Home() {
     setShowConfirmation(true)
 
     try {
-      const response = await fetch('https://primary-production-058e.up.railway.app/webhook/78e243ef-7220-4f55-89fc-c9d25bd23d29', {
+      const response = await fetch('https://n8n.nubizdigital.com/webhook-test/e72d4c46-ba80-4285-86b8-75aea8c55103', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
