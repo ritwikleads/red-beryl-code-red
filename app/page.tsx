@@ -46,6 +46,7 @@ export default function Home() {
 
   const handleFormSubmit = async (formData: any) => {
     console.log("Form submitted:", formData)
+    setShowConfirmation(true)
 
     try {
       const response = await fetch('https://primary-production-058e.up.railway.app/webhook/78e243ef-7220-4f55-89fc-c9d25bd23d29', {
@@ -64,10 +65,8 @@ export default function Home() {
       })
 
       if (!response.ok) throw new Error('Failed to submit form')
-      setShowConfirmation(true)
     } catch (error) {
       console.error("Error submitting form:", error)
-      alert('Failed to schedule meeting. Please try again.')
     }
   }
 
